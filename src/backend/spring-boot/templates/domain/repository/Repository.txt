@@ -1,0 +1,11 @@
+package PACKAGE_PREFIX.domain.repository;
+
+import PACKAGE_PREFIX.domain.entity.ENTITY_NAME;
+import PACKAGE_PREFIX.domain.repository.custom.CustomENTITY_NAMERepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ENTITY_NAMERepository extends CustomENTITY_NAMERepository, JpaRepository<ENTITY_NAME, ID_TYPE> {
+}

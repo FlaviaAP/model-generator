@@ -1,0 +1,17 @@
+package PACKAGE_PREFIX.domain.mapper;
+
+import PACKAGE_PREFIX.domain.dto.ENTITY_NAMEDTO;
+import PACKAGE_PREFIX.domain.entity.ENTITY_NAME;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+
+@Service
+public class ENTITY_NAMEMapper extends AbstractMapper<ENTITY_NAME, ENTITY_NAMEDTO>{
+
+    public ENTITY_NAMEMapper() {
+        super(ENTITY_NAME.class, ENTITY_NAMEDTO.class);
+    }
+
+}

@@ -1,0 +1,16 @@
+package PACKAGE_PREFIX.enumeration;
+
+import lombok.Getter;
+
+@Getter
+public enum ENTITY_NAMEEnum {
+    ;
+
+    private Long id;
+    private String name;
+
+    ENTITY_NAMEEnum(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}

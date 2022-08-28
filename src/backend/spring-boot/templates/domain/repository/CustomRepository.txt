@@ -1,0 +1,11 @@
+package PACKAGE_PREFIX.domain.repository.custom;
+
+import PACKAGE_PREFIX.domain.dto.pagination.ENTITY_NAMEPaginationDTO;
+import PACKAGE_PREFIX.domain.entity.ENTITY_NAME;
+import org.springframework.data.domain.Page;
+
+public interface CustomENTITY_NAMERepository {
+
+    Page<ENTITY_NAME> findByPage(ENTITY_NAMEPaginationDTO dto);
+
+}

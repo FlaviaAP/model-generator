@@ -1,0 +1,52 @@
+package PACKAGE_PREFIX.services;
+
+import PACKAGE_PREFIX.domain.dto.MePersonGroupLevelDTO;
+import PACKAGE_PREFIX.domain.dto.ENTITY_NAMEDTO;
+import PACKAGE_PREFIX.domain.dto.pagination.ENTITY_NAMEPaginationDTO;
+import PACKAGE_PREFIX.domain.dto.search_result.PageResult;
+import PACKAGE_PREFIX.domain.entity.LogoIconFile;
+import PACKAGE_PREFIX.domain.entity.ENTITY_NAME;
+import PACKAGE_PREFIX.domain.mapper.ENTITY_NAMEMapper;
+import PACKAGE_PREFIX.domain.repository.ENTITY_NAMERepository;
+import PACKAGE_PREFIX.enumeration.MessageEnum;
+import PACKAGE_PREFIX.exceptions.BusinessException;
+import PACKAGE_PREFIX.exceptions.UnexpectedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+@Service
+public class ENTITY_NAMEService extends AbstractCrudService<Integer, ENTITY_NAME, ENTITY_NAMEDTO> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ENTITY_NAMEService.class);
+
+    @Autowired
+    private ENTITY_NAMERepository repository;
+
+    @Autowired
+    private ENTITY_NAMEMapper mapper;
+
+
+    @Override
+    protected void postConstructorInit() {
+        initSet(repository, mapper);
+    }
+
+
+    @Transactional
+    public PageResult<ENTITY_NAMEDTO> getPagedList(ENTITY_NAMEPaginationDTO paginationDTO) {
+        try {
+            return toPageResult( repository.findByPage(paginationDTO) );
+        }
+        catch (Exception e) {
+            throw logAndGetUnexpectedError(LOGGER, e, "Error getPagedList of "+ getEntityName());
+        }
+    }
+
+}

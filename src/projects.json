@@ -1,0 +1,11 @@
+{
+    "projectName": {
+        "dirPath": "C:/Users/...",
+        "packageName": "com.company.blabla"
+    },
+
+    "projectName2": {
+        "dirPath": "C:/Users/...",
+        "packageName": "com.company2.blabla"
+    }
+}

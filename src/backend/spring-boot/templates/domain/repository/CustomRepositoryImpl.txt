@@ -1,0 +1,49 @@
+package PACKAGE_PREFIX.domain.repository.custom;
+
+import PACKAGE_PREFIX.domain.dto.pagination.ENTITY_NAMEPaginationDTO;
+import PACKAGE_PREFIX.domain.entity.ENTITY_NAME;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
+import javax.persistence.EntityManager;
+import java.util.*;
+
+public class CustomENTITY_NAMERepositoryImpl extends AbstractCustomRepository implements CustomENTITY_NAMERepository {
+
+    private static final String ENTITY_ALIAS = "x";
+
+    @Autowired
+    private EntityManager entityManager;
+
+    @Override
+    public Page<ENTITY_NAME> findByPage(ENTITY_NAMEPaginationDTO dto) {
+        StringBuilder queryBuilder = new StringBuilder(
+            String.format("SELECT %s FROM ENTITY_NAME %s ", ENTITY_ALIAS, ENTITY_ALIAS)
+        );
+        StringBuilder countQueryBuilder = new StringBuilder(
+            String.format("SELECT COUNT(0) FROM ENTITY_NAME %s ", ENTITY_ALIAS)
+        );
+
+
+        List<String> conditions = new ArrayList<>();
+        Map<String, Object> parametersMap = buildParametersMap(dto, conditions);
+
+        return findByPage(
+            "st",
+            dto.toPageable(), entityManager,
+            queryBuilder, countQueryBuilder,
+            parametersMap, conditions);
+    }
+
+    private Map<String, Object> buildParametersMap(ENTITY_NAMEPaginationDTO dto, List<String> conditions) {
+        Map<String, Object> parametersMap = new HashMap<>();
+
+        if(Objects.nonNull(dto.getName())) {
+            parametersMap.put("name", "%" + dto.getName().toUpperCase() + "%");
+            conditions.add(String.format("UPPER(%s.name) LIKE :name", ENTITY_ALIAS));
+        }
+
+        return parametersMap;
+    }
+
+}

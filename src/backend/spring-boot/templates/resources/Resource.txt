@@ -1,0 +1,55 @@
+package PACKAGE_PREFIX.resources;
+
+import PACKAGE_PREFIX.domain.dto.ENTITY_NAMEDTO;
+import PACKAGE_PREFIX.domain.dto.pagination.ENTITY_NAMEPaginationDTO;
+import PACKAGE_PREFIX.domain.dto.search_result.PageResult;
+import PACKAGE_PREFIX.exceptions.BusinessException;
+import PACKAGE_PREFIX.services.ENTITY_NAMEService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("RESOURCE_PATH")
+public class ENTITY_NAMEResource extends BaseResource<ENTITY_NAMEDTO, ID_TYPE> {
+
+    @Autowired
+    private ENTITY_NAMEService service;
+
+    @Override
+    protected ResponseEntity<ENTITY_NAMEDTO> insert(ENTITY_NAMEDTO dto) {
+        return ResponseEntity.ok(service.insert(dto));
+    }
+
+    @Override
+    protected ResponseEntity<ENTITY_NAMEDTO> update(ENTITY_NAMEDTO dto) {
+        return ResponseEntity.ok(service.update(dto));
+    }
+
+    @Override
+    protected ResponseEntity<ENTITY_NAMEDTO> get(Integer id) throws BusinessException {
+        return ResponseEntity.ok(service.getById(id));
+    }
+
+    @Override
+    protected void delete(Integer id) {
+        service.deleteById(id);
+    }
+
+    @Override
+    protected void deleteAll(List<Integer> ids) {
+        service.deleteAllById(ids);
+    }
+
+    @PostMapping(
+        value = { "/paged-list" },
+        produces = { JSON }
+    )
+    public ResponseEntity<PageResult<ENTITY_NAMEDTO>> getAllByPage(
+        @RequestBody ENTITY_NAMEPaginationDTO paginationDTO) throws BusinessException {
+        return ResponseEntity.ok(service.getPagedList(paginationDTO));
+    }
+
+}

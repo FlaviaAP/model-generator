@@ -1,0 +1,26 @@
+package PACKAGE_PREFIX.domain.dto;
+
+import lombok.*;
+
+import java.util.Objects;
+import java.util.stream.Stream;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class ENTITY_NAMEDTO extends BaseDTO<ID_TYPE> {
+
+    private ID_TYPE id;
+    private String name;
+
+    @Override
+    public boolean isValidForSave() {
+        return (
+            Stream.of(
+                name
+            ).allMatch(Objects::nonNull)
+        );
+    }
+}

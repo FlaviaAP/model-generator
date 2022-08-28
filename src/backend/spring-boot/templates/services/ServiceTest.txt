@@ -1,0 +1,84 @@
+package PACKAGE_PREFIX.services;
+
+import PACKAGE_PREFIX.domain.dto.ENTITY_NAMEDTO;
+import PACKAGE_PREFIX.domain.dto.pagination.ENTITY_NAMEPaginationDTO;
+import PACKAGE_PREFIX.domain.entity.ENTITY_NAME;
+import PACKAGE_PREFIX.domain.mapper.ENTITY_NAMEMapper;
+import PACKAGE_PREFIX.domain.repository.ENTITY_NAMERepository;
+import PACKAGE_PREFIX.services.factory.ENTITY_NAMEFactory;
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(SpringExtension.class)
+public class ENTITY_NAMEServiceTest extends AbstractServiceTestParent {
+
+    private static final ID_TYPE ID = SchoolTypeFactory.ID;
+
+    @InjectMocks
+    private ENTITY_NAMEService service;
+
+    @Mock
+    private ENTITY_NAMERepository repository;
+    @Mock
+    private ENTITY_NAMEMapper mapper;
+
+    @Spy
+    private ENTITY_NAME entity;
+    @Spy
+    private ENTITY_NAMEDTO dto;
+    @Spy
+    private ENTITY_NAMEPaginationDTO paginationDTO;
+
+    @Before
+    public void setUp() {
+        entity = Mockito.spy(ENTITY_NAMEFactory.build());
+        dto = Mockito.spy(ENTITY_NAMEFactory.buildDTO());
+
+        when(mapper.dtoToEntity(dto)).thenReturn(entity);
+        when(mapper.entityToDTO(entity)).thenReturn(dto);
+        when(mapper.dtoToEntity(null)).thenThrow(IllegalArgumentException.class);
+        when(mapper.entityToDTO(null)).thenThrow(IllegalArgumentException.class);
+    }
+
+    /* init */
+
+    @Test
+    public void init_should_set_repository_and_mapper_references() throws NoSuchFieldException, IllegalAccessException {
+        init_should_set_references(new ENTITY_NAMEService(), repository, mapper);
+    }
+
+    /* getPagedList */
+
+    @Test
+    public void getPagedList_should_return_PageResult() {
+        Page<ENTITY_NAME> page = new PageImpl<>(
+            Arrays.asList(entity)
+        );
+        when(repository.findByPage(paginationDTO)).thenReturn(page);
+        when(mapper.listEntityToDTO(Mockito.anyList())).thenReturn(
+            Arrays.asList(dto)
+        );
+
+        var result = service.getPagedList(paginationDTO);
+
+        assertNotNull(result);
+        assertEquals(1, result.getItems().size());
+        assertEquals(dto, result.getItems().get(0));
+    }
+
+
+}

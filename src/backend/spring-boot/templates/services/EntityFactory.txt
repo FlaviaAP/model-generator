@@ -1,0 +1,36 @@
+package PACKAGE_PREFIX.services.factory;
+
+import PACKAGE_PREFIX.domain.dto.ENTITY_NAMEDTO;
+import PACKAGE_PREFIX.domain.entity.ENTITY_NAME;
+
+public class ENTITY_NAMEFactory {
+
+    public static final ID_TYPE ID = 1;
+    public static final String NAME = "abc";
+    
+    private ENTITY_NAMEFactory() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static ENTITY_NAME build() {
+        return build(ID);
+    }
+
+    public static ENTITY_NAME build(ID_TYPE id) {
+        return ENTITY_NAME.builder()
+            .id(id)
+            .name(NAME)
+            .build();
+    }
+
+    public static ENTITY_NAMEDTO buildDTO() {
+        return buildDTO(ID);
+    }
+    
+    public static ENTITY_NAMEDTO buildDTO(ID_TYPE id) {
+        return ENTITY_NAMEDTO.builder()
+            .id(id)
+            .name(NAME)
+            .build();
+    }
+}
