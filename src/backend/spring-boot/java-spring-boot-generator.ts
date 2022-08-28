@@ -17,7 +17,7 @@ export class JavaStringBootGenerator {
     private _resourceDirPath: string = '';
 
     constructor(
-        projectName: string,        
+        projectName: string,
         private entityName: string,
         private entityIdType: string,
         private schema: string,
